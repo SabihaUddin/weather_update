@@ -6,7 +6,7 @@ import 'package:weather_update/providers/weather_provider.dart';
 
 void main() {
   runApp(ChangeNotifierProvider(
-      create:(_)=>WeatherProvider();
+      create:(_)=>WeatherProvider(),
   child: const MyApp()));
 }
 
