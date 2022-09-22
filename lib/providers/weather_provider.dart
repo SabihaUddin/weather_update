@@ -13,6 +13,8 @@ double latitude=0.0;
 double longitude=0.0;
 String unit='metric';
 String unitSymbol=celcius;
+bool get hasDataLoaded=>currentResponseModel!=null &&
+    forecastResponseModel!=null; //data veriable dhukar por load jeno hoy
 
 setNewLocation(double lat,double lng){
   latitude=lat;
