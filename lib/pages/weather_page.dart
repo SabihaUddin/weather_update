@@ -64,7 +64,8 @@ body: Center(
     final current=provider.currentResponseModel;
     return Column(
       children: [
-        Text(getFormattedDateTime(current!.dt!, 'MMM dd,yyyy'),style: txtDateBig18,)
+        Text(getFormattedDateTime(current!.dt!, 'MMM dd,yyyy'),style: txtDateBig18,),
+        Text('${current.name},${current.sys!.country},',style: txtAddress25,)
       ],
     );
   }
