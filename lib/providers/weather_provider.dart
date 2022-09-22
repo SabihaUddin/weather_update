@@ -26,7 +26,7 @@ getWeatherData(){
 }
 
   void _getCurrentData()async {
-  final uri=Uri.parse("https://api.openweathermap.org/data/2.5/weather?lat=$latitude.045&lon=$longitude&units=metric&appid=6e478d7a9c64ab2bda9b9fd5be6fa744");
+  final uri=Uri.parse("https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&units=metric&appid=6e478d7a9c64ab2bda9b9fd5be6fa744");
  try{
    final response=await get(uri);
    final map=jsonDecode(response.body);
