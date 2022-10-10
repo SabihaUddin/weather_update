@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_glow/flutter_glow.dart';
 import 'package:provider/provider.dart';
+import 'package:weather_update/pages/settings_page.dart';
 import 'package:weather_update/providers/weather_provider.dart';
 import 'package:weather_update/utils/constant.dart';
 import 'package:weather_update/utils/helper_function.dart';
@@ -16,11 +18,12 @@ class WeatherPage extends StatefulWidget {
 
 class _WeatherPageState extends State<WeatherPage> {
   late WeatherProvider provider;
-  bool isFirst=true;
+  bool isFirst = true;
+
   @override
   void didChangeDependencies() {
-    if(isFirst){
-      provider=Provider.of<WeatherProvider>(context);
+    if (isFirst) {
+      provider = Provider.of<WeatherProvider>(context);
       _detectLocation();
     }
     super.didChangeDependencies();
@@ -29,37 +32,52 @@ class _WeatherPageState extends State<WeatherPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueGrey.shade900,
-    appBar: AppBar(
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-      title: const Text('Weather'),
-      actions: [
-        IconButton(onPressed: (){}, icon: Icon(Icons.my_location)),
-        IconButton(onPressed: (){}, icon: Icon(Icons.search)),
-        IconButton(onPressed: (){}, icon: Icon(Icons.settings)),
-      ],
-    ),
-body: Center(
-  child: provider.hasDataLoaded? ListView(
-    padding: EdgeInsets.symmetric(vertical: 20,horizontal: 12),
-    children: [
-      _currentWeatherSection(),
-      _forecasteWeatherSection()
-    ],
-  ):
-  Text('Please wait....',style: TextStyle(color: Colors.white),),
-),
+      backgroundColor: Color(0xff030317),
+      /*backgroundColor: Colors.blueGrey.shade900,
+     appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: const Text('Weather'),
+        actions: [
+          IconButton(onPressed: () {}, icon: Icon(Icons.my_location)),
+          IconButton(onPressed: () {}, icon: Icon(Icons.search)),
+          IconButton(onPressed: () =>
+              Navigator.pushNamed(context, SettingsPage.routeName),
+              icon: Icon(Icons.settings)),
+        ],
+      ),*/
+      body: GlowContainer(
+        height: MediaQuery.of(context).size.height - 190,
+        margin: const EdgeInsets.all(2.0),
+        padding:  const EdgeInsets.only(top: 50, left: 30, right: 30),
+        glowColor: const Color(0xff00A1FF).withOpacity(0.5),
+        borderRadius: const BorderRadius.only(
+            bottomLeft: Radius.circular(60), bottomRight: Radius.circular(60)),
+        color: const Color(0xff00A1FF),
+        spreadRadius: 5,
+        child: Center(
+          child: provider.hasDataLoaded ? ListView(
+            padding:const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+            children: [
+              _currentWeatherSection(),
+              _forecasteWeatherSection()
+            ],
+          ) :
+          const Text('Please wait....', style: TextStyle(color: Colors.white),),
+        ),
+      ),
 
     );
   }
 
-  void _detectLocation() {
-    determinePosition().then((position){
-      provider.setNewLocation(position.latitude,position.longitude);
-      provider.getWeatherData();
-    });
-  }
+  void _detectLocation() async {
+    final position = await determinePosition();
+
+    provider.setNewLocation(position.latitude, position.longitude);
+    provider.setTemUnit(await provider.getTempUnitPreferenceValue());
+    provider.getWeatherData();
+}
+
 
   Widget _currentWeatherSection() {
     final current=provider.currentResponseModel;
