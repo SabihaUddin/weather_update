@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:weather_update/pages/detail_page.dart';
 import 'package:weather_update/pages/settings_page.dart';
 import 'package:weather_update/pages/weather_page.dart';
 import 'package:weather_update/providers/weather_provider.dart';
@@ -26,7 +27,8 @@ class MyApp extends StatelessWidget {
       initialRoute: WeatherPage.routeName,
       routes: {
         SettingsPage.routeName:(_)=>SettingsPage(),
-        WeatherPage.routeName:(_)=>WeatherPage()
+        WeatherPage.routeName:(_)=>WeatherPage(),
+        DetailPage.routeName:(_)=>DetailPage()
       },
     );
   }
